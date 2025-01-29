@@ -1,0 +1,7 @@
+install.packages("BiocManager", repos = "https://cloud.r-project.org")
+BiocManager::install("msa")
+BiocManager::install("Biostrings")
+BiocManager::install("pwalign")
+BiocManager::install("BSgenome")
+BiocManager::install("BSgenome.Ecoli.NCBI.20080805")
+BiocManager::install("ggmsa")

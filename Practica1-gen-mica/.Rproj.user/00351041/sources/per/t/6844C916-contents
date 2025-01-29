@@ -1,0 +1,98 @@
+
+library (Biostrings)
+
+genes <- DNAStringSet(c("agcttttcattctgactgcaacgggcaatatgtctctgtgtggattaaaaaaagagtgtctgatagcagcttctgaactggttacctgccgtgagtaaattaaaattttattgacttaggtcactaaatactttaaccaatataggcatagcgcacagacagataaaaattacagagtacacaacatccatgaaacgcattagcaccaccattaccaccaccatcaccattaccacaggtaacggtgcgggctgacgcgtacaggaaacacagaaaaaagcccgcacctgacagtgcgggctttttttttcgaccaaagg",
+                      "taacgaggtaacaaccatgcgagtgttgaagttcggcggtacatcagtggcaaatgcagaacgttttctgcgtgttgccgatattctggaaagcaatgccaggcaggggcaggtggccaccgtcctctctgcccccgccaaaatcaccaaccacctggtggcgatgattgaaaaaaccattagcggccaggatgctttacccaatatcagcgatgccgaacgtatttttgccgaacttttgacgggactcgccgccgcccagccggggttcccgctggcgcaattgaaaactttcgtcgatcaggaatttgcccaaataa",
+                      "aacatgtcctgcatggcattagtttgttggggcagtgcccggatagcatcaacgctgcgctgatttgccgtggcgagaaaatgtcgatcgccattatggccggcgtattagaagcgcgcggtcacaacgttactgttatcgatccggtcgaaaaactgctggcagtggggcattacctcgaatctaccgtcgatattgctgagtccacccgccgtattgcggcaagccgcattccggctgatcacatggtgctgatggcaggtttcaccgccggtaatgaaaaaggcgaactggtggtgcttggacgcaacggttccgac",
+                      "tactctgctgcggtgctggctgcctgtttacgcgccgattgttgcgagatttggacggacgttgacggggtctatacctgcgacccgcgtcaggtgcccgatgcgaggttgttgaagtcgatgtcctaccaggaagcgatggagctttcctacttcggcg", 
+                      "ctaaagttcttcacccccgcaccattacccccatcgcccagttccagatcccttgcctgattaaaaataccggaaatcctcaagcaccaggtacgctcattggtgccagccgtgatgaagacgaattaccggtcaagggcatttccaatctgaataacatggcaatgttcagcgtttctggtccggggatgaaagggatggtcggcatggcggcgcgcgtctttgcagcgatgtcacgcg",
+                      "cccgtatttccgtggtgctgattacgcaatcatcttccgaatacagcatcagtttctgcgttccacaaagcgactgtgtgcgagctgaacgggcaatgcaggaagagttctacctggaactgaaagaaggcttactggagccgctggcagtgacggaacg",
+                      "gctggccattatctcggtggtaggtgatggtatgcgcaccttgcgtgggatctcggcgaaattctttgccgcactggcccgcgccaatatcaacattgtcgccattgctcagggatcttctgaacgctcaatctctgtcgtggtaaataacgatgatgcgaccactggcgtgcgcgttactcatcagatgctgttcaataccgatcaggttatcgaagtgtttgtgattggcgtcggtggcgttggcggtgcgctgctggagcaactgaagcgtcagcaaagctggctgaagaataaacatatcgacttacgtgtctgcggtgttgccaactcgaaggctctgctcaccaatgtacatggccttaatctggaaaactggcaggaagaactggcgcaagccaaagagccgtttaatctcgggcgcttaattcgcctcgtgaaagaatatcatctgctgaacccggtcattgttgactgcac",
+                      "ttccagccaggcagtggcggatcaatatgccgacttcctgcgcgaaggtttccacgttgtcacgccgaacaaaaaggccaacacctcgtcgatggattactaccatcagttgcgttatgcggcggaaaaatcgcggcgtaaattcctctatgacaccaacgttggggctggattaccggttattgagaacctgcaaaatctgctcaatgcaggtgatgaattgatgaagttctccggcattctttctggttcgctttcttatatcttcggcaagttagacgaaggcatgagtttctccgaggcgaccacgctggcgcgggaaatgggttataccgaaccggacccgcgagatgatctttctggtatggatgtggcgcgtaaactattgattctcgctcgtgaaacgggacgtgaactggagctggcggatattgaaattgaacctgtgctgcccgcagagtttaacgccgagggtgatgttgccgcttttatggcgaatctgtcacaactcgacgatctctttgccgcgcgcgtggcgaaggcccgtgatgaaggaaaag",
+                      "ttttgcgctatgttggcaatattgatgaagatggcgtctgccgcgtgaagattgccgaagtggatggtaatgatccgctgttcaaagtgaaaaatggcgaaaacgccctggccttctatagccactattatcagccgctgccgttggtactgcgcggatatggtgcgggcaatgacgttacagctgccggtgtctttgctgatctgctacgtaccctctcatggaagttaggagtctgac",
+                      "atggttaaagtttatgccccggcttccagtgccaatatgagcgtcgggtttgatgtgctcggggcggcggtgacacctgttgatggtgcattgctcggagatgtagtcacggttgaggcggcagagacattcagtctcaacaacctcggacgctttgccgataagctgccgtcagaaccacgggaaaatatcgtttatcagtgctgggagcgtttttgccaggaactgggtaagcaaattccagtggcgatgaccctggaaaagaatatgccgatcggttcgggcttaggctccagtgcctgttcggtggtcgcggcgct"))
+subseqs <- DNAStringSet(c("ggctgacgcgt","catgtcctgcat","ttgctgatctgctacgta","agtggcgatgaccctggaa",
+                          "aggaaacacagaaaaaagcc","cccgcgtcagg","tgggtaagcaaattcca","agttttgcgctatgttg","ttttc","ctgc",
+                          "ccatcaccat","agttcttca","caaattccagtg","aaacgccctgg","gccgctgccgttggtactg","ccctggaaaa","atgtcacg",
+                          "ttggcaata","aagtgtttgtgattggc","cttacgtgtc","agtttctgcgttccac","cgtggcgaga","atcgt",
+                          "tggcgcgggaaatg","gttactcatcagatgctgt","ctaaagttcttcacccccg","tctcgctcgtgaaacggga","cttt",
+                          "aattcgcctcg","tcttat","caaaatctgctcaatgca","caccaac","aggtgatgaatt","cgtttctggtccgg","ggaacggctgg",
+                          "aactgaag","tactggagccgct","gatagcagcttc","tctaccgtcgatattgct","cacaacgttactgttatcga","tctgactgcaa",
+                          "ctacttcggcgctaaag","cgtcgatggat","gtgatgaat","caatgtacatggcct","tctcggcgaaattctt","agct",
+                          "gcttactggagccgct","tttgcagcgatgtcacgc","attgccgaagtggat","agctgccgtcagaac","gtggtgc",
+                          "tctgccgcgtgaagat","gcactgg","gccaaaatcaccaa","gcattccggctgat","tgatgt","taagcaaattccag","atgtctc",
+                          "ccatta","ccccgcaccattaccccca","ggcaatgcagga","caaagctggctgaagaat","ggctccagtg",
+                          "tctgcgttccacaaagcgac","acctgcgacc","ttgacggggtctatacct","gcgtcgggtttgatgtgctc","ctggagcc",
+                          "aggttatcgaagtgtttgtg","tagcgcacagacagataa","gatgaagttct","aaaa","acccgccgtattgcggca",
+                          "acgttgacggggtct","ggactcgccgccgcccagc","aggtgatg","cgaacgtatttttgc","gtgcgcgttactcatc",
+                          "aatatcaacat","ttgc","atacctgcgacccgcgtcag","agaaccacgggaa","attcctctat","gtcctctctgcccc",
+                          "caatatcagcgatgcc","ggccaacacctcgtcgatg","gatccgc","acccgcgtcaggtgcccg","atccatgaaacgcatt",
+                          "cgac","tactctgc","gtgatgaattgatgaa","cctgttta","ctattgattct","tgaaattgaacctgtgc",
+                          "taaacatatcgacttacgt","aaaaatta","ttctcgctcgtgaa","ctttgccgataagctgcc","gtaaactattgattct","ggag",
+                          "tgcctgt","cgtctgc","gcgtaaactattg","gggtctatacct","atgaattgat","attagaagcgcgcggtcac",
+                          "gcaattgaaaactttcgt","cact","ttccaatc","gtacaggaa","ctggcgcaattgaaaact","acagtgcgggcttttttt",
+                          "taccggtta","gccgcgtgaag","tatt","tgttgccga","atgaaaa","tgccggtg","ggtca","ttcgtcgatcagga",
+                          "gtagtcacggttgaggcg","tggtaatg","tgcgagtgtt","ctggaa","cgacttc","tggagctt","gggg",
+                          "tgaaggaaaagttt","tactcatcagatgctgttca","tactctgctgcg","accaacgttggggctggatt","gttactcatcagatgc",
+                          "agaaaa","cgaatctaccgtcga","aatatgccgacttcc","cttt","tgctgaacccggtca","aggtggccaccgtcct",
+                          "ggacgtgaactggag","atatgccgatcgg","agcgatgtcacgcgcccg","ggacggacgtt","ccaggaagcga",
+                          "gtatttccgtggtgctgatt","atcaggttatcgaag","tgga","aatgaaaaaggcgaac","atggcatta","gcccaaataaaacat",
+                          "aagaatatcatctgctga","gggctggatta","aagtggatggta","ttatcg","gctct","tcgtga","ggtactgcgcggatatg",
+                          "taaacatatcgacttac","cgttacagctgccggtg","aaaagaatatgccgatc","ttcgtcgatcagga","gtggca",
+                          "ttggcaatattgatgaaga","tcctcaag","ttaggctcc","tcatcag","tgcggtgctggctgcctg","cttcg",
+                          "tgcccgatgcgaggttgt","gcgaccacgctggcgcgg","atctgaataacat","tcggcatggcggcg","tgccgataagctgccgtc",
+                          "atgttcagcgtttctgg","gatggcgtctgc","gccgacttcctg","aatgcag","cagcatcagttt","gccaaaatcaccaacc",
+                          "tttct","atggattactacc","ttccgactactc","ccgatgcgaggttgtt","tacatggccttaat","ccccatcgcccagttccag",
+                          "aggttgttgaagtcgat","tgaaacgg","agagtttaacgccgag","caccattac","aaaactt","ttct",
+                          "cccgtgatgaaggaaaagtt","tcac","ggcc","ttaaccaatatag","ggcagtgcccggatagcatc","cgtattagaagcgcgcggtc",
+                          "ggacgttgacggg","gtgg"))
+length(subseqs)
+names(genes) <- c(1:10)
+
+datagene <- list(
+  Gen1 <- c(),
+  Gen2 <- c(),
+  Gen3 <- c(),
+  Gen4 <- c(),
+  Gen5 <- c(),
+  Gen6 <- c(),
+  Gen7 <- c(),
+  Gen8 <- c(),
+  Gen9 <- c(),
+  Gen10 <- c(),
+  Multiple <- c(),
+  NoExiste <- c()
+)
+
+for (a in 1:10){
+  repe <- 0
+  no <- 0
+  y <- 0
+  for (b in 1:200){
+    matchPattern(subseqs[[b]], genes[[a]]) -> x 
+    vmatchPattern(subseqs[[b]], genes) -> z
+  q <- 0
+    for (c in 1:10) {
+      if (length(z[[c]]) > 0){
+        q <- q + 1
+      }
+    }
+  if (q == 0){
+    no <- no + 1
+  }
+  else if (q > 1){
+    repe <- repe + 1
+  }
+   if (q == 1 & length(x) > 0){
+      y <- y + 1
+    }
+  else if (q == 1 & length(x) < 0){
+    
+  }
+  }
+  datagene[[a]] <- y
+  datagene[[11]] <- repe
+  datagene[[12]] <- no
+}
+
+datagene
