@@ -8,25 +8,23 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-#
-
+# 
 
 [Base de datos](../Data/RNA-seq_a_mano-2.pdf)
 
 Se llevó a cabo el analisis de expresión de genes a partir de short reads (200 subsets) para identificar el nivel de expresión de 10 genes especificos. Se realizo con 2 metodologias:
 
-- A mano
+-   A mano
 
 Se imprimieron los 10 genes de forma lineal para posteriormente encontrar los lugares de coincidencia de los short reads, para finalmente contar cuantas coincidencias correspondian a cada gen.
 
 ![Práctica a mano de analisis de expresión](../Data/Practica1-genomica.jpg)
 
-- Script en R
+-   Script en R
 
-Para llevar a cabo el analisis en R se va a utilizar el paquete BioStrings de BioConductor, ya que vamos a usar las secuencias como DNAStrings. 
-Por tanto los pasos que se siguieron para el analisis fueron:
+Para llevar a cabo el analisis en R se va a utilizar el paquete BioStrings de BioConductor, ya que vamos a usar las secuencias como DNAStrings. Por tanto los pasos que se siguieron para el analisis fueron:
 
-1) Subir las secuencias como DNAStringSets, especificamente 2, genes y subseqs, uno conteniendo las 10 secuencias correspondientes a los 10 genes y otro conteniendo las 200 secuencias correspondientes a los subseqs o shortreads.
+1)  Subir las secuencias como DNAStringSets, especificamente 2, genes y subseqs, uno conteniendo las 10 secuencias correspondientes a los 10 genes y otro conteniendo las 200 secuencias correspondientes a los subseqs o shortreads.
 
 ```{r message=FALSE, warning=FALSE}
 library (Biostrings)
@@ -78,8 +76,7 @@ subseqs <- DNAStringSet(c("ggctgacgcgt","catgtcctgcat","ttgctgatctgctacgta","agt
                           "ggacgttgacggg","gtgg"))
 ```
 
-
-2) Crear una lista con 10 elementos vectoriales vacios que van a contener la cuenta de coincidencias para cada gen.
+2)  Crear una lista con 10 elementos vectoriales vacios que van a contener la cuenta de coincidencias para cada gen.
 
 ```{r}
 datagene <- list(
@@ -98,12 +95,11 @@ datagene <- list(
 )
 ```
 
+3)  Crear un ciclo for que evalue 2 cosas:
 
-3) Crear un ciclo for que evalue 2 cosas:
+-   Si una secuencia corresponde a más de un gen o si no corresponde a alguno, esto se logra con la función vmatchpattern, con la cual se busca cada fragmento (del 1 al 200) en todos los genes, generandonos un resultado en forma de lista con 10 elementos, cada uno con longitud variable dependiendo de si encontró match en cada gen, por lo que, la logica para encontrar el tipo de fragmento es: si la suma de las longitudes individuales del resultado del vmatchpattern es 0 entonces el fragmento no se encuentra en ningún gen, si es 1 entonces el fragmento se encuentra en un único gen, si es más que 1 entonces el fragmento se encuentra en más de un gen.
 
-- Si una secuencia corresponde a más de un gen o si no corresponde a alguno, esto se logra con la función vmatchpattern, con la cual se busca cada fragmento (del 1 al 200) en todos los genes, generandonos un resultado en forma de lista con 10 elementos, cada uno con longitud variable dependiendo de si encontró match en cada gen, por lo que, la logica para encontrar el tipo de fragmento es: si la suma de las longitudes individuales del resultado del vmatchpattern es 0 entonces el fragmento no se encuentra en ningún gen, si es 1 entonces el fragmento se encuentra en un único gen, si es más que 1 entonces el fragmento se encuentra en más de un gen.
-
-- En que gen se encuentra el fragmento, para esto se hizo un matchpattern en ciclo que evalua cada fragmento (1:200) con cada gen (1:10), si hay una coincidencia entonces la longitud del resultado será mayor a 0, por lo que se suma 1 al contador de coincidencias, por lo que, cada ciclo de a evalua un gen en todos los fragmentos, entonces al final obtendremos un contador individual para cada gen, que se guardara en la posición correspodiente en la lista anteriormente creada para posteriormente reiniciar el contador para el siguiente ciclo.
+-   En que gen se encuentra el fragmento, para esto se hizo un matchpattern en ciclo que evalua cada fragmento (1:200) con cada gen (1:10), si hay una coincidencia entonces la longitud del resultado será mayor a 0, por lo que se suma 1 al contador de coincidencias, por lo que, cada ciclo de a evalua un gen en todos los fragmentos, entonces al final obtendremos un contador individual para cada gen, que se guardara en la posición correspodiente en la lista anteriormente creada para posteriormente reiniciar el contador para el siguiente ciclo.
 
 ```{r}
 for (a in 1:10){
@@ -140,7 +136,6 @@ for (a in 1:10){
 datagene
 ```
 
-
 Por lo que al final, el resultado del script seria una lista con 12 elementos, 10 elementos numericos correspondientes al numero de coincidencias para cada gen, un elemento numerico [11] que corresponde al numero de fragmentos que coinciden con más de un fragmento y un elemento numerico [12] que corresponde al número de fragmentos que no coinciden con algún gen. Finalmente se puede reacomodar los datos en un data frame y estimar el porcentaje de fragmentos con multiples coincidencias (porcentaje_multi) y el porcentaje de fragmentos sin coincidencias (porcentaje_no_encontrados).
 
 ```{r}
@@ -165,3 +160,15 @@ Porcentaje_no_encontrados
 ```
 
 **Parte de = Miguel Rodríguez**
+
+Discusión
+
+> La longitud de los genes es un aspecto de vital importancia que debe de ser tomado en cuenta para utilizar cualquier NGS, esto debido a los procesos que ejecutan estas técnicas, ya que la fiabilidad de la cuantificación de expresión decrece conforme aumenta la longitud de un gen en cuestión dando pie a un fenómeno que recibe el nombre de "sesgo de cuantificación". Este surge a raíz de la diferencia que hay entre la cantidad de fragmentos que se generan para un gen pequeño y los que se generan para un gen largo, siendo que siempre se requerirá fragmentar el gen largo en más piezas. Tal discrepancia ocasiona que haya sesgos en la cuantificación de la abundancia de cada gen, lo que lleva a sobreestimaciones de los niveles de expresión(xxx).
+>
+> En adición a ello, un exceso de fragmentación también tiene un impacto en la variabilidad de la cuantificación observada, ya que como dice (xxx) los genes largos tienden a mostrar una mayor dispersión en sus medidas de expresión, lo cual se ve reflejado en una menor confiabilidad en el análisis.
+>
+> Otro aspecto importante a tener en cuenta en los análisis de expresión son las ambigüedades de mapeo. Estas se definen como lecturas que se pueden alinear con igual calidad en dos o más ubicaciones en el genoma de referencia, y que de acuerdo con (yyy) existen 2 principales causas para estas ambigüedades: 1) variantes de empalme alternativo y 2) transcripciones faltantes de referencia.
+>
+> El punto 1 es más claro cuando lo aplicamos a animales y plantas, ya que el ensamblaje del trascriptoma de alguno de estos organismos es particularmente complicado debido a que las variantes del Splicing alternativo suelen compartir exones, lo que genera mapeos imprecisos. El punto 2 está sustentado en que para realizar un mapeo es necesario contrastar mis lecturas contra un genoma de referencia, sin embargo, cuando el genoma está incompleto o la secuenciación del mismo es de mala calidad, se producen alineaciones de mala calidad o simplemente no se encuentran los transcritos en el genoma. Este problema suele ser más difícil de resolver que el del punto 1, ya que mientras existen programas que al identificar que son transcritos provenientes de splicing alternativo estos realizan una nueva estimación específica para estos transcritos que aumenta la precisión de la prueba, sin embargo, cuando hay grandes regiones faltantes en genoma de referencia los programas que existen para corregirlo no producen una mejora sustancial, y lo que realmente puede mejorar las ambigüedades de mapeo en esas situaciones es una mejor secuenciación del genoma de referencia (yyy).
+
+\
