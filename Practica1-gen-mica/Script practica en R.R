@@ -122,3 +122,31 @@ Porcentaje_multi <- datagene[[11]]/200
 Porcentaje_multi
 Porcentaje_no_encontrados <- datagene[[12]]/200
 Porcentaje_no_encontrados
+
+#grafica
+install.packages("ggpattern")
+install.packages("hrbrthemes")
+library(ggpattern)
+library(ggplot2)
+library(hrbrthemes)
+
+resultadosdf<- data.frame(Numero_genes= Resultados$Numero_de_gen,
+                          Fragmentos = Resultados$Fragmentos)
+resultadosdf$Numero_genes<-as.character(resultadosdf$Numero_genes)
+
+str(resultadosdf)
+
+#ahora sí 
+ggplot(resultadosdf, aes(x=Numero_genes, y=Fragmentos)) +
+  geom_col_pattern(
+    aes(pattern=Numero_genes,
+        pattern_angle=Numero_genes,
+        pattern_spacing=Numero_genes
+    ), 
+    fill            = 'white',
+    colour          = 'black', 
+    pattern_density = 0.5, 
+    pattern_fill    = 'black',
+    pattern_colour  = 'darkgrey'
+  ) +
+  theme_bw()
