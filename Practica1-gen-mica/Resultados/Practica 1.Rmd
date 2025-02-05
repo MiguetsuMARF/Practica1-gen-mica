@@ -171,9 +171,9 @@ Porcentaje_no_encontrados
 >
 > El punto 1 es más claro cuando lo aplicamos a animales y plantas, ya que el ensamblaje del trascriptoma de alguno de estos organismos es particularmente complicado debido a que las variantes del Splicing alternativo suelen compartir exones, lo que genera mapeos imprecisos. El punto 2 está sustentado en que para realizar un mapeo es necesario contrastar mis lecturas contra un genoma de referencia, sin embargo, cuando el genoma está incompleto o la secuenciación del mismo es de mala calidad, se producen alineaciones de mala calidad o simplemente no se encuentran los transcritos en el genoma. Este problema suele ser más difícil de resolver que el del punto 1, ya que mientras existen programas que al identificar que son transcritos provenientes de splicing alternativo estos realizan una nueva estimación específica para estos transcritos que aumenta la precisión de la prueba, sin embargo, cuando hay grandes regiones faltantes en genoma de referencia, los programas que existen para corregirlo no producen una mejora sustancial, y lo que realmente puede mejorar las ambigüedades de mapeo en tales situaciones es una mejor secuenciación del genoma de referencia (Pyrkosz et al., 2013).
 >
-> #### Parte de Ivan jacobo 
+> #### Parte de Ivan jacobo
 
-### Bibliografía  
+### Bibliografía
 
 García, C., & Elena, M. (s. f.). *Comparación de métodos de cálculo de expresión génica basados en RNA-seq*.
 
